@@ -2,6 +2,7 @@
 
 // Import necessary Flutter and Dart packages.
 import 'package:flutter/material.dart';
+import 'package:flutter_infinite_scroll/cutom_card_widget.dart';
 import 'package:flutter_infinite_scroll/mode.dart'; // Custom data model class.
 import 'package:flutter_infinite_scroll/network.dart'; // Handles network requests.
 import 'package:http/http.dart' as http; // For making HTTP requests.
@@ -101,6 +102,7 @@ class _HomePageState extends State<HomePage> {
         if (search.isEmpty && selectedCategory == categories[0]) {
           filterList = postsData;
         }
+        // Only More Pages loads when user can't apply any filter.
         selectedCategory == "All" && search.isEmpty
             ? {
                 postsData.addAll(response.data ?? []),
@@ -198,11 +200,11 @@ class _HomePageState extends State<HomePage> {
                             final data = filterList[index];
 
                             // Display individual post data in a card.
-                            return Card(
-                              child: ListTile(
-                                title: Text(data.title ?? "No title"),
-                              ),
-                            );
+                            return CustomCard(
+                                title: data.title ?? "No title",
+                                imageUrl: data.featuredImage ?? "No Image Url",
+                                category: data.category ?? "Latest",
+                                publishedDate: data.pubDate!);
                           },
                         ),
             ),
